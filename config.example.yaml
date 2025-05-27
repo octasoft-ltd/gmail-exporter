@@ -1,0 +1,40 @@
+# Gmail Exporter Configuration Example
+# Copy this file to ~/.gmail-exporter.yaml or specify with --config flag
+
+# Gmail API Configuration
+credentials_file: "~/.gmail-exporter/credentials.json"
+token_file: "~/.gmail-exporter/token.json"
+
+# Default Export Settings
+output_dir: "./exports"
+organize_by_labels: false
+parallel_workers: 3
+
+# Default Filters
+filters:
+  exclude_chats: true
+  search_scope: "all_mail"
+
+# Metrics Configuration
+metrics:
+  enabled: true
+  format: "json"  # json or prometheus
+  output_file: "metrics.json"
+
+# Logging Configuration
+log_level: "info"  # debug, info, warn, error
+log_file: ""  # empty for stderr, or specify a file path
+
+# Example filter configurations for common use cases:
+# 
+# Export all emails to a specific recipient:
+# gmail-exporter export --to "user@example.com" --output-dir ./exports
+#
+# Export emails with attachments larger than 5MB:
+# gmail-exporter export --to "user@example.com" --has-attachment --size-greater-than "5MB"
+#
+# Export recent emails (last 30 days) with specific subject:
+# gmail-exporter export --to "user@example.com" --subject "Invoice" --date-within "30d"
+#
+# Export and organize by labels:
+# gmail-exporter export --to "user@example.com" --organize-by-labels --output-dir ./exports 

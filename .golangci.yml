@@ -1,0 +1,79 @@
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - unused
+    - gofmt
+    - goimports
+    - misspell
+    - unconvert
+    - unparam
+    - gosec
+    - gocritic
+    - gocyclo
+    - dupl
+    - goconst
+    - gofumpt
+    - revive
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+  
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - dupImport
+      - ifElseChain
+      - octalLiteral
+      - whyNoLint
+      - wrapperFunc
+  
+  gosec:
+    excludes:
+      - G204 # Subprocess launched with variable
+      - G304 # File path provided as taint input
+  
+  revive:
+    rules:
+      - name: exported
+        disabled: false
+        arguments:
+          - "checkPrivateReceivers"
+          - "sayRepetitiveInsteadOfStutters"
+
+issues:
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+    
+    # Exclude known linters from partially hard-to-fix issues
+    - linters:
+        - gocritic
+      text: "unnecessaryDefer:"
+    
+    # Exclude shadow checking on err variables
+    - linters:
+        - govet
+      text: 'shadow: declaration of "err"'
+
+  max-issues-per-linter: 0
+  max-same-issues: 0 
