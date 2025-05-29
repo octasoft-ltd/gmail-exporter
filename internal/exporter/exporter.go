@@ -50,6 +50,16 @@ type Failure struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
+// ProcessedEmail represents an email that was successfully processed during export
+type ProcessedEmail struct {
+	ID        string    `json:"id"`
+	Subject   string    `json:"subject,omitempty"`
+	From      string    `json:"from,omitempty"`
+	Date      time.Time `json:"date,omitempty"`
+	Size      int64     `json:"size,omitempty"`
+	Processed time.Time `json:"processed"`
+}
+
 // Exporter handles email export operations
 type Exporter struct {
 	config        *Config
@@ -189,6 +199,9 @@ func (e *Exporter) exportEmails(messageIDs []string) (*Result, error) {
 		Failures: make([]Failure, 0),
 	}
 
+	// Track successfully processed emails for filter file
+	var processedEmails []ProcessedEmail
+
 	// Create worker pool for parallel processing
 	if e.config.ParallelWorkers <= 0 {
 		e.config.ParallelWorkers = 1
@@ -233,6 +246,13 @@ func (e *Exporter) exportEmails(messageIDs []string) (*Result, error) {
 		} else {
 			result.TotalExported++
 			result.TotalSize += exportRes.Size
+
+			// Add to processed emails for filter file
+			processedEmails = append(processedEmails, ProcessedEmail{
+				ID:        exportRes.MessageID,
+				Size:      exportRes.Size,
+				Processed: time.Now(),
+			})
 		}
 
 		// Show progress
@@ -240,6 +260,13 @@ func (e *Exporter) exportEmails(messageIDs []string) (*Result, error) {
 			result.TotalExported, total, float64(processed)/float64(total)*100)
 	}
 	fmt.Println() // New line after progress
+
+	// Save processed emails filter file
+	if len(processedEmails) > 0 {
+		if err := e.saveProcessedEmailsFilter(processedEmails); err != nil {
+			logrus.WithError(err).Warn("Failed to save processed emails filter file")
+		}
+	}
 
 	return result, nil
 }
@@ -404,11 +431,6 @@ func validateConfig(config *Config) error {
 
 // decodeBase64URL decodes a base64url encoded string
 func decodeBase64URL(data string) ([]byte, error) {
-	// Gmail API returns base64url encoded data, we need to convert it to standard base64
-	// Replace URL-safe characters with standard base64 characters
-	data = strings.ReplaceAll(data, "-", "+")
-	data = strings.ReplaceAll(data, "_", "/")
-
 	// Add padding if necessary
 	switch len(data) % 4 {
 	case 2:
@@ -417,5 +439,30 @@ func decodeBase64URL(data string) ([]byte, error) {
 		data += "="
 	}
 
+	// Replace URL-safe characters
+	data = strings.ReplaceAll(data, "-", "+")
+	data = strings.ReplaceAll(data, "_", "/")
+
 	return base64.StdEncoding.DecodeString(data)
+}
+
+// saveProcessedEmailsFilter saves the list of processed emails to a filter file
+func (e *Exporter) saveProcessedEmailsFilter(processedEmails []ProcessedEmail) error {
+	filterFile := filepath.Join(e.config.OutputDir, "processed_emails.json")
+
+	data, err := json.MarshalIndent(processedEmails, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal processed emails: %w", err)
+	}
+
+	if err := os.WriteFile(filterFile, data, 0644); err != nil {
+		return fmt.Errorf("failed to write filter file: %w", err)
+	}
+
+	logrus.WithFields(logrus.Fields{
+		"filter_file": filterFile,
+		"count":       len(processedEmails),
+	}).Info("Saved processed emails filter file")
+
+	return nil
 }

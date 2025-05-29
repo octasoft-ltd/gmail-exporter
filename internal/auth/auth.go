@@ -41,7 +41,7 @@ func NewAuthenticator(credentialsFile, tokenFile string) (*Authenticator, error)
 	}
 
 	// Parse credentials and create OAuth config
-	config, err := google.ConfigFromJSON(b, gmail.GmailReadonlyScope, gmail.GmailModifyScope, gmail.GmailSendScope)
+	config, err := google.ConfigFromJSON(b, "https://mail.google.com/")
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse client secret file to config: %w", err)
 	}

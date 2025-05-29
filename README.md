@@ -133,11 +133,27 @@ For migrating emails between different Gmail accounts:
   --import-token dest-token.json
 
 # 3. Optional: Clean up source account
+# Note: The export process automatically creates processed_emails.json
 ./gmail-exporter cleanup \
   --credentials-file source-creds.json \
   --token-file source-token.json \
   --action archive \
   --filter-file migration/processed_emails.json
+```
+
+### Generate Filter File from Existing Exports
+
+If you have an existing exports directory but no filter file for cleanup:
+
+```bash
+# Generate filter file from exports directory
+./gmail-exporter generate-filter --input-dir exports/
+
+# This creates exports/processed_emails.json which can be used for cleanup
+./gmail-exporter cleanup \
+  --filter-file exports/processed_emails.json \
+  --action archive \
+  --dry-run
 ```
 
 ### Testing with Limits
@@ -173,6 +189,10 @@ For migrating emails between different Gmail accounts:
 - `--filter-file`: JSON file containing processed email IDs
 - `--dry-run`: Show what would be done without making changes
 - `--limit, -l`: Limit number of messages to process
+
+#### Generate Filter Command
+- `--input-dir, -i`: Input directory containing exported emails
+- `--output-file, -o`: Output filter file path (default: input-dir/processed_emails.json)
 
 ### Filter Options
 

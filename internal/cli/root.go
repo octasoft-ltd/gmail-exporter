@@ -35,6 +35,7 @@ Features:
 - Export emails to local filesystem with optional label-based organization
 - Import/forward emails to another Gmail account
 - Archive or delete processed emails
+- Generate filter files from existing exports for cleanup operations
 - Comprehensive metrics in JSON and Prometheus formats
 - Progress tracking and resumable operations
 - Parallel and serial processing options`,
@@ -76,6 +77,7 @@ func init() {
 	rootCmd.AddCommand(cleanupCmd)
 	rootCmd.AddCommand(workflowCmd)
 	rootCmd.AddCommand(statusCmd)
+	rootCmd.AddCommand(generateFilterCmd)
 	rootCmd.AddCommand(versionCmd)
 }
 
