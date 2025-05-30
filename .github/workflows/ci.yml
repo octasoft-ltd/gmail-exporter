@@ -48,11 +48,14 @@ jobs:
     - name: Clean module cache
       run: go clean -modcache
 
-    - name: Build packages (vendor mode)
-      run: go build -mod=vendor ./...
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Build packages
+      run: go build ./...
 
     - name: Run tests
-      run: go test -mod=vendor -v -race -coverprofile=coverage.out ./...
+      run: go test -v -race -coverprofile=coverage.out ./...
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -93,14 +96,16 @@ jobs:
     - name: Clean module cache
       run: go clean -modcache
 
-    - name: Build packages (vendor mode)
-      run: go build -mod=vendor ./...
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Build packages
+      run: go build ./...
 
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v4
       with:
         version: latest
-        args: --modules-download-mode=vendor
 
   build:
     name: Build
@@ -122,20 +127,23 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
+    - name: Download dependencies
+      run: go mod download
+
     - name: Build for Linux
       run: |
-        GOOS=linux GOARCH=amd64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-linux-amd64 ./cmd/gmail-exporter
-        GOOS=linux GOARCH=arm64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-linux-arm64 ./cmd/gmail-exporter
+        GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-linux-amd64 ./cmd/gmail-exporter
+        GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-linux-arm64 ./cmd/gmail-exporter
 
     - name: Build for macOS
       run: |
-        GOOS=darwin GOARCH=amd64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-darwin-amd64 ./cmd/gmail-exporter
-        GOOS=darwin GOARCH=arm64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-darwin-arm64 ./cmd/gmail-exporter
+        GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-darwin-amd64 ./cmd/gmail-exporter
+        GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-darwin-arm64 ./cmd/gmail-exporter
 
     - name: Build for Windows
       run: |
-        GOOS=windows GOARCH=amd64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-windows-amd64.exe ./cmd/gmail-exporter
-        GOOS=windows GOARCH=arm64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-windows-arm64.exe ./cmd/gmail-exporter
+        GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-windows-amd64.exe ./cmd/gmail-exporter
+        GOOS=windows GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-windows-arm64.exe ./cmd/gmail-exporter
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
@@ -178,11 +186,14 @@ jobs:
     - name: Clean module cache
       run: go clean -modcache
 
-    - name: Build packages (vendor mode)
-      run: go build -mod=vendor ./...
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Build packages
+      run: go build ./...
 
     - name: Install Gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@v2.22.4
 
     - name: Run Gosec Security Scanner
-      run: gosec -no-fail -modules-download-mode=vendor ./... 
+      run: gosec -no-fail ./... 
