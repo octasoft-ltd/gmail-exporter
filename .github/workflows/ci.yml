@@ -51,9 +51,6 @@ jobs:
     - name: Download dependencies
       run: go mod download
 
-    - name: Initialize Go module
-      run: go mod init
-
     - name: Build packages
       run: go build ./...
 
