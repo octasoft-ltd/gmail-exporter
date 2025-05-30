@@ -111,7 +111,7 @@ func (e *Exporter) Export(filterConfig *filters.Config) (*Result, error) {
 	}
 
 	// Create output directory
-	if err := os.MkdirAll(e.config.OutputDir, 0o755); err != nil {
+	if err := os.MkdirAll(e.config.OutputDir, 0o750); err != nil {
 		return nil, fmt.Errorf("failed to create output directory: %w", err)
 	}
 
@@ -344,7 +344,7 @@ func (e *Exporter) getOutputPath(message *gmail.Message) (string, error) {
 	}
 
 	outputDir := filepath.Join(e.config.OutputDir, labelDir)
-	if err := os.MkdirAll(outputDir, 0o755); err != nil {
+	if err := os.MkdirAll(outputDir, 0o750); err != nil {
 		return "", fmt.Errorf("failed to create label directory: %w", err)
 	}
 

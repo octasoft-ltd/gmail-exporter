@@ -149,7 +149,7 @@ func initLogging() {
 	// Set log output
 	logFile := viper.GetString("log_file")
 	if logFile != "" {
-		file, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o666)
+		file, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o600)
 		if err != nil {
 			logrus.WithError(err).Warn("Failed to open log file, using stderr")
 		} else {
