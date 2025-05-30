@@ -26,11 +26,25 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Download dependencies
-      run: go mod download
+    - name: Debug environment
+      run: |
+        pwd
+        ls -la
+        go version
+        go env GOMOD
+        go env GOPATH
+        go env GOROOT
 
-    - name: Verify dependencies
-      run: go mod verify
+    - name: Initialize Go module
+      run: |
+        go mod download
+        go mod verify
+        go mod tidy
+
+    - name: List packages
+      run: |
+        go list -m
+        go list ./...
 
     - name: Build packages
       run: go build ./...
@@ -64,8 +78,25 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Download dependencies
-      run: go mod download
+    - name: Debug environment
+      run: |
+        pwd
+        ls -la
+        go version
+        go env GOMOD
+        go env GOPATH
+        go env GOROOT
+
+    - name: Initialize Go module
+      run: |
+        go mod download
+        go mod verify
+        go mod tidy
+
+    - name: List packages
+      run: |
+        go list -m
+        go list ./...
 
     - name: Build packages
       run: go build ./...
@@ -138,11 +169,25 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Download dependencies
-      run: go mod download
+    - name: Debug environment
+      run: |
+        pwd
+        ls -la
+        go version
+        go env GOMOD
+        go env GOPATH
+        go env GOROOT
 
-    - name: Verify Go modules
-      run: go mod verify
+    - name: Initialize Go module
+      run: |
+        go mod download
+        go mod verify
+        go mod tidy
+
+    - name: List packages
+      run: |
+        go list -m
+        go list ./...
 
     - name: Build packages
       run: go build ./...
