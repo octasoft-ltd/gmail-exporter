@@ -50,6 +50,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    needs: [test]  # Run after test job to benefit from its cache
     steps:
     - uses: actions/checkout@v4
 
@@ -83,6 +84,7 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+    needs: [lint]  # Run after lint job
     steps:
     - uses: actions/checkout@v4
 
@@ -113,7 +115,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [test, lint, security]
+    needs: [security]  # Run after security job
     steps:
     - uses: actions/checkout@v4
 
