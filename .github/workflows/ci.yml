@@ -10,6 +10,7 @@ env:
   GOPRIVATE: github.com/octasoft-ltd/*
   GONOPROXY: github.com/octasoft-ltd/*
   GONOSUMDB: github.com/octasoft-ltd/*
+  GOPROXY: https://proxy.golang.org,direct
 
 jobs:
   test:
@@ -47,25 +48,11 @@ jobs:
     - name: Clean module cache
       run: go clean -modcache
 
-    - name: Initialize module
-      run: |
-        go mod tidy
-        go mod download
-        go mod verify
-
-    - name: Build packages
-      run: |
-        go build ./internal/metrics
-        go build ./internal/auth
-        go build ./internal/filters
-        go build ./internal/cleaner
-        go build ./internal/cli
-        go build ./internal/exporter
-        go build ./internal/importer
-        go build ./cmd/gmail-exporter
+    - name: Build packages (vendor mode)
+      run: go build -mod=vendor ./...
 
     - name: Run tests
-      run: go test -v -race -coverprofile=coverage.out ./...
+      run: go test -mod=vendor -v -race -coverprofile=coverage.out ./...
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -106,27 +93,14 @@ jobs:
     - name: Clean module cache
       run: go clean -modcache
 
-    - name: Initialize module
-      run: |
-        go mod tidy
-        go mod download
-        go mod verify
-
-    - name: Build packages
-      run: |
-        go build ./internal/metrics
-        go build ./internal/auth
-        go build ./internal/filters
-        go build ./internal/cleaner
-        go build ./internal/cli
-        go build ./internal/exporter
-        go build ./internal/importer
-        go build ./cmd/gmail-exporter
+    - name: Build packages (vendor mode)
+      run: go build -mod=vendor ./...
 
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v4
       with:
         version: latest
+        args: --modules-download-mode=vendor
 
   build:
     name: Build
@@ -148,26 +122,20 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Initialize module
-      run: |
-        go mod tidy
-        go mod download
-        go mod verify
-
     - name: Build for Linux
       run: |
-        GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-linux-amd64 ./cmd/gmail-exporter
-        GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-linux-arm64 ./cmd/gmail-exporter
+        GOOS=linux GOARCH=amd64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-linux-amd64 ./cmd/gmail-exporter
+        GOOS=linux GOARCH=arm64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-linux-arm64 ./cmd/gmail-exporter
 
     - name: Build for macOS
       run: |
-        GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-darwin-amd64 ./cmd/gmail-exporter
-        GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-darwin-arm64 ./cmd/gmail-exporter
+        GOOS=darwin GOARCH=amd64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-darwin-amd64 ./cmd/gmail-exporter
+        GOOS=darwin GOARCH=arm64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-darwin-arm64 ./cmd/gmail-exporter
 
     - name: Build for Windows
       run: |
-        GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-windows-amd64.exe ./cmd/gmail-exporter
-        GOOS=windows GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-windows-arm64.exe ./cmd/gmail-exporter
+        GOOS=windows GOARCH=amd64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-windows-amd64.exe ./cmd/gmail-exporter
+        GOOS=windows GOARCH=arm64 go build -mod=vendor -ldflags="-s -w" -o gmail-exporter-windows-arm64.exe ./cmd/gmail-exporter
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
@@ -210,25 +178,11 @@ jobs:
     - name: Clean module cache
       run: go clean -modcache
 
-    - name: Initialize module
-      run: |
-        go mod tidy
-        go mod download
-        go mod verify
-
-    - name: Build packages
-      run: |
-        go build ./internal/metrics
-        go build ./internal/auth
-        go build ./internal/filters
-        go build ./internal/cleaner
-        go build ./internal/cli
-        go build ./internal/exporter
-        go build ./internal/importer
-        go build ./cmd/gmail-exporter
+    - name: Build packages (vendor mode)
+      run: go build -mod=vendor ./...
 
     - name: Install Gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@v2.22.4
 
     - name: Run Gosec Security Scanner
-      run: gosec -no-fail ./... 
+      run: gosec -no-fail -modules-download-mode=vendor ./... 
