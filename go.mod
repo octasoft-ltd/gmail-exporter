@@ -1,6 +1,6 @@
 module github.com/octasoft-ltd/gmail-exporter
 
-go 1.22
+go 1.24
 
 toolchain go1.24.3
 
