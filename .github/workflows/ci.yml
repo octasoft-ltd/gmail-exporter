@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  GOPRIVATE: github.com/octasoft-ltd/*
+
 jobs:
   test:
     name: Test
@@ -34,12 +37,12 @@ jobs:
         go env GOMOD
         go env GOPATH
         go env GOROOT
+        go env GOPRIVATE
 
     - name: Initialize Go module
       run: |
         go mod download
         go mod verify
-        go mod tidy
 
     - name: List packages
       run: |
@@ -86,12 +89,12 @@ jobs:
         go env GOMOD
         go env GOPATH
         go env GOROOT
+        go env GOPRIVATE
 
     - name: Initialize Go module
       run: |
         go mod download
         go mod verify
-        go mod tidy
 
     - name: List packages
       run: |
@@ -177,12 +180,12 @@ jobs:
         go env GOMOD
         go env GOPATH
         go env GOROOT
+        go env GOPRIVATE
 
     - name: Initialize Go module
       run: |
         go mod download
         go mod verify
-        go mod tidy
 
     - name: List packages
       run: |
