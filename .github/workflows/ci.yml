@@ -8,6 +8,8 @@ on:
 
 env:
   GOPRIVATE: github.com/octasoft-ltd/*
+  GONOPROXY: github.com/octasoft-ltd/*
+  GONOSUMDB: github.com/octasoft-ltd/*
 
 jobs:
   test:
@@ -38,20 +40,29 @@ jobs:
         go env GOPATH
         go env GOROOT
         go env GOPRIVATE
+        go env GONOPROXY
+        go env GONOSUMDB
+        go env GOPROXY
 
-    - name: Initialize Go workspace
+    - name: Clean module cache
+      run: go clean -modcache
+
+    - name: Initialize module
       run: |
-        go work init .
-        go work sync
-
-    - name: Download dependencies
-      run: go mod download
-
-    - name: Verify dependencies
-      run: go mod verify
+        go mod tidy
+        go mod download
+        go mod verify
 
     - name: Build packages
-      run: go build ./...
+      run: |
+        go build ./internal/metrics
+        go build ./internal/auth
+        go build ./internal/filters
+        go build ./internal/cleaner
+        go build ./internal/cli
+        go build ./internal/exporter
+        go build ./internal/importer
+        go build ./cmd/gmail-exporter
 
     - name: Run tests
       run: go test -v -race -coverprofile=coverage.out ./...
@@ -92,19 +103,25 @@ jobs:
         go env GOROOT
         go env GOPRIVATE
 
-    - name: Initialize Go workspace
+    - name: Clean module cache
+      run: go clean -modcache
+
+    - name: Initialize module
       run: |
-        go work init .
-        go work sync
-
-    - name: Download dependencies
-      run: go mod download
-
-    - name: Verify dependencies
-      run: go mod verify
+        go mod tidy
+        go mod download
+        go mod verify
 
     - name: Build packages
-      run: go build ./...
+      run: |
+        go build ./internal/metrics
+        go build ./internal/auth
+        go build ./internal/filters
+        go build ./internal/cleaner
+        go build ./internal/cli
+        go build ./internal/exporter
+        go build ./internal/importer
+        go build ./cmd/gmail-exporter
 
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v4
@@ -131,8 +148,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Download dependencies
-      run: go mod download
+    - name: Initialize module
+      run: |
+        go mod tidy
+        go mod download
+        go mod verify
 
     - name: Build for Linux
       run: |
@@ -183,20 +203,29 @@ jobs:
         go env GOPATH
         go env GOROOT
         go env GOPRIVATE
+        go env GONOPROXY
+        go env GONOSUMDB
+        go env GOPROXY
 
-    - name: Initialize Go workspace
+    - name: Clean module cache
+      run: go clean -modcache
+
+    - name: Initialize module
       run: |
-        go work init .
-        go work sync
-
-    - name: Download dependencies
-      run: go mod download
-
-    - name: Verify dependencies
-      run: go mod verify
+        go mod tidy
+        go mod download
+        go mod verify
 
     - name: Build packages
-      run: go build ./...
+      run: |
+        go build ./internal/metrics
+        go build ./internal/auth
+        go build ./internal/filters
+        go build ./internal/cleaner
+        go build ./internal/cli
+        go build ./internal/exporter
+        go build ./internal/importer
+        go build ./cmd/gmail-exporter
 
     - name: Install Gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@v2.22.4
