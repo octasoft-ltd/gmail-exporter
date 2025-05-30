@@ -33,7 +33,7 @@ func TestScanExportsDirectory(t *testing.T) {
 
 	for _, tf := range testFiles {
 		filePath := filepath.Join(tempDir, tf.filename)
-		err := os.WriteFile(filePath, []byte(tf.content), 0644)
+		err := os.WriteFile(filePath, []byte(tf.content), 0o644)
 		if err != nil {
 			t.Fatalf("Failed to create test file %s: %v", tf.filename, err)
 		}
@@ -141,7 +141,7 @@ func TestGenerateFilterIntegration(t *testing.T) {
 	// Create subdirectories like real exports
 	subDirs := []string{"SENT", "INBOX", "IMPORTANT"}
 	for _, subDir := range subDirs {
-		err := os.MkdirAll(filepath.Join(tempDir, subDir), 0755)
+		err := os.MkdirAll(filepath.Join(tempDir, subDir), 0o755)
 		if err != nil {
 			t.Fatalf("Failed to create subdir %s: %v", subDir, err)
 		}
@@ -160,7 +160,7 @@ func TestGenerateFilterIntegration(t *testing.T) {
 
 	for _, te := range testEmails {
 		filePath := filepath.Join(tempDir, te.dir, te.filename)
-		err := os.WriteFile(filePath, []byte("test email content"), 0644)
+		err := os.WriteFile(filePath, []byte("test email content"), 0o644)
 		if err != nil {
 			t.Fatalf("Failed to create test file %s: %v", filePath, err)
 		}
@@ -184,7 +184,7 @@ func TestGenerateFilterIntegration(t *testing.T) {
 		t.Fatalf("Failed to marshal processed emails: %v", err)
 	}
 
-	err = os.WriteFile(filterFile, data, 0644)
+	err = os.WriteFile(filterFile, data, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write filter file: %v", err)
 	}

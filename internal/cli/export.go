@@ -93,9 +93,15 @@ func init() {
 	exportCmd.Flags().IntP("limit", "l", 0, "Limit the number of messages to process (0 = no limit, useful for testing)")
 
 	// Bind flags to viper
-	viper.BindPFlag("output_dir", exportCmd.Flags().Lookup("output-dir"))
-	viper.BindPFlag("organize_by_labels", exportCmd.Flags().Lookup("organize-by-labels"))
-	viper.BindPFlag("parallel_workers", exportCmd.Flags().Lookup("parallel-workers"))
+	if err := viper.BindPFlag("output_dir", exportCmd.Flags().Lookup("output-dir")); err != nil {
+		logrus.WithError(err).Fatal("Failed to bind output-dir flag")
+	}
+	if err := viper.BindPFlag("organize_by_labels", exportCmd.Flags().Lookup("organize-by-labels")); err != nil {
+		logrus.WithError(err).Fatal("Failed to bind organize-by-labels flag")
+	}
+	if err := viper.BindPFlag("parallel_workers", exportCmd.Flags().Lookup("parallel-workers")); err != nil {
+		logrus.WithError(err).Fatal("Failed to bind parallel-workers flag")
+	}
 }
 
 func buildFilterConfig(cmd *cobra.Command) (*filters.Config, error) {

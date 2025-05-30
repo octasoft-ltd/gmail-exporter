@@ -14,6 +14,12 @@ import (
 	"gmail-exporter/internal/metrics"
 )
 
+// Action constants
+const (
+	ActionArchive = "archive"
+	ActionDelete  = "delete"
+)
+
 // Config represents the cleaner configuration
 type Config struct {
 	CredentialsFile string `json:"credentials_file"`
@@ -210,9 +216,9 @@ func (c *Cleaner) cleanupSingleEmail(emailID string) error {
 	}
 
 	switch c.config.Action {
-	case "archive":
+	case ActionArchive:
 		return c.archiveEmail(emailID)
-	case "delete":
+	case ActionDelete:
 		return c.deleteEmail(emailID)
 	default:
 		return fmt.Errorf("unsupported action: %s", c.config.Action)
@@ -247,9 +253,9 @@ func (c *Cleaner) deleteEmail(emailID string) error {
 // getActionVerb returns the appropriate verb for the action
 func (c *Cleaner) getActionVerb() string {
 	switch c.config.Action {
-	case "archive":
+	case ActionArchive:
 		return "archived"
-	case "delete":
+	case ActionDelete:
 		return "deleted"
 	default:
 		return "processed"
@@ -259,11 +265,11 @@ func (c *Cleaner) getActionVerb() string {
 // validateConfig validates the cleaner configuration
 func validateConfig(config *Config) error {
 	if config.Action == "" {
-		config.Action = "archive" // Default action
+		config.Action = ActionArchive // Default action
 	}
 
-	if config.Action != "archive" && config.Action != "delete" {
-		return fmt.Errorf("action must be 'archive' or 'delete', got: %s", config.Action)
+	if config.Action != ActionArchive && config.Action != ActionDelete {
+		return fmt.Errorf("action must be '%s' or '%s', got: %s", ActionArchive, ActionDelete, config.Action)
 	}
 
 	if config.FilterFile == "" {

@@ -111,7 +111,7 @@ func TestFindEmailFiles(t *testing.T) {
 
 	for _, filename := range testFiles {
 		filePath := filepath.Join(tempDir, filename)
-		err := os.WriteFile(filePath, []byte("test content"), 0644)
+		err := os.WriteFile(filePath, []byte("test content"), 0o644)
 		if err != nil {
 			t.Fatalf("Failed to create test file %s: %v", filename, err)
 		}
@@ -119,13 +119,13 @@ func TestFindEmailFiles(t *testing.T) {
 
 	// Create subdirectory with more files
 	subDir := filepath.Join(tempDir, "subdir")
-	err = os.MkdirAll(subDir, 0755)
+	err = os.MkdirAll(subDir, 0o755)
 	if err != nil {
 		t.Fatalf("Failed to create subdirectory: %v", err)
 	}
 
 	subFile := filepath.Join(subDir, "email4.eml")
-	err = os.WriteFile(subFile, []byte("test content"), 0644)
+	err = os.WriteFile(subFile, []byte("test content"), 0o644)
 	if err != nil {
 		t.Fatalf("Failed to create sub file: %v", err)
 	}

@@ -33,7 +33,7 @@ func TestNew(t *testing.T) {
 		t.Fatalf("Failed to marshal test data: %v", err)
 	}
 
-	err = os.WriteFile(filterFile, data, 0644)
+	err = os.WriteFile(filterFile, data, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write filter file: %v", err)
 	}
@@ -63,7 +63,7 @@ func TestValidateConfig(t *testing.T) {
 	defer os.RemoveAll(tempDir)
 
 	validFilterFile := filepath.Join(tempDir, "valid.json")
-	err = os.WriteFile(validFilterFile, []byte("[]"), 0644)
+	err = os.WriteFile(validFilterFile, []byte("[]"), 0o644)
 	if err != nil {
 		t.Fatalf("Failed to create valid filter file: %v", err)
 	}
@@ -182,7 +182,7 @@ func TestLoadProcessedEmails(t *testing.T) {
 		t.Fatalf("Failed to marshal test data: %v", err)
 	}
 
-	err = os.WriteFile(filterFile, data, 0644)
+	err = os.WriteFile(filterFile, data, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write filter file: %v", err)
 	}
@@ -231,7 +231,7 @@ func TestLoadProcessedEmails_InvalidJSON(t *testing.T) {
 
 	// Write invalid JSON to file
 	filterFile := filepath.Join(tempDir, "invalid.json")
-	err = os.WriteFile(filterFile, []byte("invalid json"), 0644)
+	err = os.WriteFile(filterFile, []byte("invalid json"), 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write invalid filter file: %v", err)
 	}

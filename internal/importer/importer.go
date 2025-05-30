@@ -160,7 +160,6 @@ func (i *Importer) findEmailFiles() ([]string, error) {
 
 		return nil
 	})
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to walk directory: %w", err)
 	}

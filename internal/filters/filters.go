@@ -122,9 +122,7 @@ func (c *Config) Validate() error {
 	}
 
 	// Check for conflicting attachment filters
-	if c.HasAttachment != nil {
-		// This is handled in the CLI layer, but we could add additional validation here
-	}
+	// Attachment filter conflicts are handled in the CLI layer
 
 	// Validate search scope
 	validScopes := []string{"all_mail", "inbox", "sent", "drafts", "spam", "trash"}

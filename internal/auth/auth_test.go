@@ -38,7 +38,7 @@ func TestNewAuthenticator(t *testing.T) {
 		t.Fatalf("Failed to marshal mock credentials: %v", err)
 	}
 
-	err = os.WriteFile(credentialsFile, credentialsData, 0644)
+	err = os.WriteFile(credentialsFile, credentialsData, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write credentials file: %v", err)
 	}
@@ -78,7 +78,7 @@ func TestNewAuthenticator_InvalidCredentials(t *testing.T) {
 
 	// Test with invalid JSON
 	invalidCredentialsFile := filepath.Join(tempDir, "invalid.json")
-	err = os.WriteFile(invalidCredentialsFile, []byte("invalid json"), 0644)
+	err = os.WriteFile(invalidCredentialsFile, []byte("invalid json"), 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write invalid credentials file: %v", err)
 	}
@@ -117,7 +117,7 @@ func TestAuthenticator_saveToken_loadToken(t *testing.T) {
 		t.Fatalf("Failed to marshal mock credentials: %v", err)
 	}
 
-	err = os.WriteFile(credentialsFile, credentialsData, 0644)
+	err = os.WriteFile(credentialsFile, credentialsData, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write credentials file: %v", err)
 	}
@@ -192,7 +192,7 @@ func TestAuthenticator_loadToken_NonExistent(t *testing.T) {
 		t.Fatalf("Failed to marshal mock credentials: %v", err)
 	}
 
-	err = os.WriteFile(credentialsFile, credentialsData, 0644)
+	err = os.WriteFile(credentialsFile, credentialsData, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write credentials file: %v", err)
 	}
@@ -236,7 +236,7 @@ func TestAuthenticator_GetStatus(t *testing.T) {
 		t.Fatalf("Failed to marshal mock credentials: %v", err)
 	}
 
-	err = os.WriteFile(credentialsFile, credentialsData, 0644)
+	err = os.WriteFile(credentialsFile, credentialsData, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write credentials file: %v", err)
 	}
@@ -335,7 +335,7 @@ func TestAuthenticator_TokenDirectoryCreation(t *testing.T) {
 		t.Fatalf("Failed to marshal mock credentials: %v", err)
 	}
 
-	err = os.WriteFile(credentialsFile, credentialsData, 0644)
+	err = os.WriteFile(credentialsFile, credentialsData, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write credentials file: %v", err)
 	}
@@ -397,7 +397,7 @@ func TestAuthenticator_TokenFilePermissions(t *testing.T) {
 		t.Fatalf("Failed to marshal mock credentials: %v", err)
 	}
 
-	err = os.WriteFile(credentialsFile, credentialsData, 0644)
+	err = os.WriteFile(credentialsFile, credentialsData, 0o644)
 	if err != nil {
 		t.Fatalf("Failed to write credentials file: %v", err)
 	}
@@ -427,7 +427,7 @@ func TestAuthenticator_TokenFilePermissions(t *testing.T) {
 		t.Fatalf("Failed to stat token file: %v", err)
 	}
 
-	expectedMode := os.FileMode(0600)
+	expectedMode := os.FileMode(0o600)
 	if fileInfo.Mode().Perm() != expectedMode {
 		t.Errorf("Expected file permissions %v, got %v", expectedMode, fileInfo.Mode().Perm())
 	}

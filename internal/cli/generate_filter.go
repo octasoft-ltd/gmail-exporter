@@ -55,7 +55,7 @@ from the filenames to create a processed_emails.json file.`,
 			return fmt.Errorf("failed to marshal processed emails: %w", err)
 		}
 
-		if err := os.WriteFile(outputFile, data, 0644); err != nil {
+		if err := os.WriteFile(outputFile, data, 0o600); err != nil {
 			return fmt.Errorf("failed to write filter file: %w", err)
 		}
 
@@ -72,7 +72,9 @@ from the filenames to create a processed_emails.json file.`,
 func init() {
 	generateFilterCmd.Flags().StringP("input-dir", "i", "", "Input directory containing exported emails")
 	generateFilterCmd.Flags().StringP("output-file", "o", "", "Output filter file path (default: input-dir/processed_emails.json)")
-	generateFilterCmd.MarkFlagRequired("input-dir")
+	if err := generateFilterCmd.MarkFlagRequired("input-dir"); err != nil {
+		logrus.WithError(err).Fatal("Failed to mark input-dir flag as required")
+	}
 }
 
 // scanExportsDirectory scans the exports directory and extracts email IDs from filenames
@@ -125,7 +127,6 @@ func scanExportsDirectory(inputDir string) ([]cleaner.ProcessedEmail, error) {
 		processedEmails = append(processedEmails, processedEmail)
 		return nil
 	})
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to walk directory: %w", err)
 	}

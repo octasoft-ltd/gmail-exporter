@@ -36,7 +36,7 @@ downloaded from Google Cloud Console.`,
 
 		// Create the config directory
 		configDir := filepath.Dir(viper.GetString("credentials_file"))
-		if err := os.MkdirAll(configDir, 0700); err != nil {
+		if err := os.MkdirAll(configDir, 0o700); err != nil {
 			return fmt.Errorf("failed to create config directory: %w", err)
 		}
 
@@ -137,7 +137,9 @@ func init() {
 
 	// Setup command flags
 	authSetupCmd.Flags().StringP("credentials-file", "c", "", "Path to credentials JSON file from Google Cloud Console")
-	authSetupCmd.MarkFlagRequired("credentials-file")
+	if err := authSetupCmd.MarkFlagRequired("credentials-file"); err != nil {
+		logrus.WithError(err).Fatal("Failed to mark credentials-file flag as required")
+	}
 }
 
 // copyFile copies a file from src to dst

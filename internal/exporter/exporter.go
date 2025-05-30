@@ -111,7 +111,7 @@ func (e *Exporter) Export(filterConfig *filters.Config) (*Result, error) {
 	}
 
 	// Create output directory
-	if err := os.MkdirAll(e.config.OutputDir, 0755); err != nil {
+	if err := os.MkdirAll(e.config.OutputDir, 0o755); err != nil {
 		return nil, fmt.Errorf("failed to create output directory: %w", err)
 	}
 
@@ -344,7 +344,7 @@ func (e *Exporter) getOutputPath(message *gmail.Message) (string, error) {
 	}
 
 	outputDir := filepath.Join(e.config.OutputDir, labelDir)
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
+	if err := os.MkdirAll(outputDir, 0o755); err != nil {
 		return "", fmt.Errorf("failed to create label directory: %w", err)
 	}
 
@@ -366,7 +366,7 @@ func (e *Exporter) exportAsEML(message *gmail.Message, outputPath string) (int64
 	}
 
 	// Write to file
-	if err := os.WriteFile(outputPath, rawData, 0644); err != nil {
+	if err := os.WriteFile(outputPath, rawData, 0o600); err != nil {
 		return 0, fmt.Errorf("failed to write EML file: %w", err)
 	}
 
@@ -382,7 +382,7 @@ func (e *Exporter) exportAsJSON(message *gmail.Message, outputPath string) (int6
 	}
 
 	// Write to file
-	if err := os.WriteFile(outputPath, jsonData, 0644); err != nil {
+	if err := os.WriteFile(outputPath, jsonData, 0o600); err != nil {
 		return 0, fmt.Errorf("failed to write JSON file: %w", err)
 	}
 
@@ -455,7 +455,7 @@ func (e *Exporter) saveProcessedEmailsFilter(processedEmails []ProcessedEmail) e
 		return fmt.Errorf("failed to marshal processed emails: %w", err)
 	}
 
-	if err := os.WriteFile(filterFile, data, 0644); err != nil {
+	if err := os.WriteFile(filterFile, data, 0o600); err != nil {
 		return fmt.Errorf("failed to write filter file: %w", err)
 	}
 

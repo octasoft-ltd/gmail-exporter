@@ -66,9 +66,15 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
 
 	// Bind flags to viper
-	viper.BindPFlag("log_level", rootCmd.PersistentFlags().Lookup("log-level"))
-	viper.BindPFlag("log_file", rootCmd.PersistentFlags().Lookup("log-file"))
-	viper.BindPFlag("verbose", rootCmd.PersistentFlags().Lookup("verbose"))
+	if err := viper.BindPFlag("log_level", rootCmd.PersistentFlags().Lookup("log-level")); err != nil {
+		logrus.WithError(err).Fatal("Failed to bind log-level flag")
+	}
+	if err := viper.BindPFlag("log_file", rootCmd.PersistentFlags().Lookup("log-file")); err != nil {
+		logrus.WithError(err).Fatal("Failed to bind log-file flag")
+	}
+	if err := viper.BindPFlag("verbose", rootCmd.PersistentFlags().Lookup("verbose")); err != nil {
+		logrus.WithError(err).Fatal("Failed to bind verbose flag")
+	}
 
 	// Add subcommands
 	rootCmd.AddCommand(authCmd)
@@ -143,7 +149,7 @@ func initLogging() {
 	// Set log output
 	logFile := viper.GetString("log_file")
 	if logFile != "" {
-		file, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		file, err := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o666)
 		if err != nil {
 			logrus.WithError(err).Warn("Failed to open log file, using stderr")
 		} else {

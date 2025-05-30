@@ -106,7 +106,10 @@ func (a *Authenticator) authenticateWithLocalServer() (*oauth2.Token, error) {
 	errChan := make(chan error, 1)
 
 	// Start local server
-	server := &http.Server{Addr: ":8080"}
+	server := &http.Server{
+		Addr:              ":8080",
+		ReadHeaderTimeout: 10 * time.Second,
+	}
 	http.HandleFunc("/callback", func(w http.ResponseWriter, r *http.Request) {
 		code := r.URL.Query().Get("code")
 		if code == "" {
@@ -164,15 +167,21 @@ func (a *Authenticator) authenticateWithLocalServer() (*oauth2.Token, error) {
 	case authCode = <-codeChan:
 		// Success
 	case err := <-errChan:
-		server.Shutdown(context.Background())
+		if shutdownErr := server.Shutdown(context.Background()); shutdownErr != nil {
+			logrus.WithError(shutdownErr).Warn("Failed to shutdown server")
+		}
 		return nil, err
 	case <-time.After(5 * time.Minute):
-		server.Shutdown(context.Background())
+		if shutdownErr := server.Shutdown(context.Background()); shutdownErr != nil {
+			logrus.WithError(shutdownErr).Warn("Failed to shutdown server")
+		}
 		return nil, fmt.Errorf("authentication timeout after 5 minutes")
 	}
 
 	// Shutdown server
-	server.Shutdown(context.Background())
+	if shutdownErr := server.Shutdown(context.Background()); shutdownErr != nil {
+		logrus.WithError(shutdownErr).Warn("Failed to shutdown server")
+	}
 
 	// Exchange code for token
 	token, err := a.config.Exchange(context.TODO(), authCode)
@@ -339,11 +348,11 @@ func (a *Authenticator) loadToken() (*oauth2.Token, error) {
 // saveToken saves the token to file
 func (a *Authenticator) saveToken(token *oauth2.Token) error {
 	// Create directory if it doesn't exist
-	if err := os.MkdirAll(filepath.Dir(a.tokenFile), 0700); err != nil {
+	if err := os.MkdirAll(filepath.Dir(a.tokenFile), 0o700); err != nil {
 		return err
 	}
 
-	f, err := os.OpenFile(a.tokenFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
+	f, err := os.OpenFile(a.tokenFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0o600)
 	if err != nil {
 		return err
 	}
