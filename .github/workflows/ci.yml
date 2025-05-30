@@ -10,6 +10,7 @@ env:
   GOPRIVATE: github.com/octasoft-ltd/*
   GONOPROXY: github.com/octasoft-ltd/*
   GONOSUMDB: github.com/octasoft-ltd/*
+  CACHE_VERSION: v2  # Increment to invalidate corrupted caches
 
 jobs:
   test:
@@ -26,10 +27,13 @@ jobs:
     - name: Cache Go modules
       uses: actions/cache@v4
       with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-test-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ runner.os }}-go-
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-test-
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
 
     - name: Download dependencies
       run: go mod download
@@ -55,22 +59,12 @@ jobs:
       with:
         go-version: '1.24.3'
 
-    - name: Cache Go modules
-      uses: actions/cache@v4
-      with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
-
-    - name: Download dependencies
-      run: go mod download
-
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v4
       with:
         version: v1.64.8
         args: --out-format=colored-line-number
+        # Let the action handle its own caching and dependencies
 
   security:
     name: Security Scan
@@ -86,10 +80,13 @@ jobs:
     - name: Cache Go modules
       uses: actions/cache@v4
       with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-security-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ runner.os }}-go-
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-security-
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
 
     - name: Download dependencies
       run: go mod download
@@ -115,10 +112,13 @@ jobs:
     - name: Cache Go modules
       uses: actions/cache@v4
       with:
-        path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ runner.os }}-go-
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-build-
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
 
     - name: Download dependencies
       run: go mod download
