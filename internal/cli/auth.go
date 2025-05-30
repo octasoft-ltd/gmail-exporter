@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"gmail-exporter/internal/auth"
+	"github.com/octasoft-ltd/gmail-exporter/internal/auth"
 )
 
 var authCmd = &cobra.Command{

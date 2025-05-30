@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"gmail-exporter/internal/importer"
-	"gmail-exporter/internal/metrics"
+	"github.com/octasoft-ltd/gmail-exporter/internal/importer"
+	"github.com/octasoft-ltd/gmail-exporter/internal/metrics"
 )
 
 var importCmd = &cobra.Command{

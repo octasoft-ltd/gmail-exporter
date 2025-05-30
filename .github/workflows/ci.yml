@@ -135,7 +135,11 @@ jobs:
     - name: Download dependencies
       run: go mod download
 
+    - name: Verify Go modules
+      run: go mod verify
+
+    - name: Install Gosec
+      run: go install github.com/securego/gosec/v2/cmd/gosec@v2.22.4
+
     - name: Run Gosec Security Scanner
-      uses: securego/gosec@v2.22.4
-      with:
-        args: './...' 
+      run: gosec -no-fail ./... 

@@ -1,4 +1,4 @@
-module gmail-exporter
+module github.com/octasoft-ltd/gmail-exporter
 
 go 1.22
 

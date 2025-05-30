@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"gmail-exporter/internal/cleaner"
+	"github.com/octasoft-ltd/gmail-exporter/internal/cleaner"
 )
 
 var generateFilterCmd = &cobra.Command{

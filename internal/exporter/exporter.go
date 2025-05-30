@@ -13,9 +13,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/gmail/v1"
 
-	"gmail-exporter/internal/auth"
-	"gmail-exporter/internal/filters"
-	"gmail-exporter/internal/metrics"
+	"github.com/octasoft-ltd/gmail-exporter/internal/auth"
+	"github.com/octasoft-ltd/gmail-exporter/internal/filters"
+	"github.com/octasoft-ltd/gmail-exporter/internal/metrics"
 )
 
 // Config represents the exporter configuration

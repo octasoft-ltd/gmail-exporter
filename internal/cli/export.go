@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"gmail-exporter/internal/exporter"
-	"gmail-exporter/internal/filters"
+	"github.com/octasoft-ltd/gmail-exporter/internal/exporter"
+	"github.com/octasoft-ltd/gmail-exporter/internal/filters"
 )
 
 var exportCmd = &cobra.Command{

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"gmail-exporter/internal/cleaner"
+	"github.com/octasoft-ltd/gmail-exporter/internal/cleaner"
 )
 
 func TestScanExportsDirectory(t *testing.T) {
