@@ -30,9 +30,8 @@ jobs:
         path: |
           ~/go/pkg/mod
           ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-test-${{ hashFiles('**/go.sum') }}
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-test-
           ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
 
     - name: Download dependencies
@@ -59,12 +58,27 @@ jobs:
       with:
         go-version: '1.24.3'
 
+    - name: Cache Go modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
+
+    - name: Download dependencies
+      run: go mod download
+
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v4
       with:
         version: v1.64.8
         args: --out-format=colored-line-number
-        # Let the action handle its own caching and dependencies
+        skip-cache: false
+        skip-pkg-cache: false
+        skip-build-cache: false
 
   security:
     name: Security Scan
@@ -83,9 +97,8 @@ jobs:
         path: |
           ~/go/pkg/mod
           ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-security-${{ hashFiles('**/go.sum') }}
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-security-
           ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
 
     - name: Download dependencies
@@ -115,9 +128,8 @@ jobs:
         path: |
           ~/go/pkg/mod
           ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
+        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-build-
           ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
 
     - name: Download dependencies
