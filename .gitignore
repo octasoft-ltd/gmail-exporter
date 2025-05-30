@@ -79,7 +79,7 @@ state.json
 
 # Metrics files
 *metrics*.json
-metrics/
+/metrics/
 
 # Configuration files with sensitive data
 config.yaml
