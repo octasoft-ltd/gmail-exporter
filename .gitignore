@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-gmail-exporter
+/gmail-exporter
 gmail-exporter.exe
 
 # Test binary, built with `go test -c`
