@@ -39,15 +39,16 @@ jobs:
         go env GOROOT
         go env GOPRIVATE
 
-    - name: Initialize Go module
+    - name: Initialize Go workspace
       run: |
-        go mod download
-        go mod verify
+        go work init .
+        go work sync
 
-    - name: List packages
-      run: |
-        go list -m
-        go list ./...
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Verify dependencies
+      run: go mod verify
 
     - name: Build packages
       run: go build ./...
@@ -91,15 +92,16 @@ jobs:
         go env GOROOT
         go env GOPRIVATE
 
-    - name: Initialize Go module
+    - name: Initialize Go workspace
       run: |
-        go mod download
-        go mod verify
+        go work init .
+        go work sync
 
-    - name: List packages
-      run: |
-        go list -m
-        go list ./...
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Verify dependencies
+      run: go mod verify
 
     - name: Build packages
       run: go build ./...
@@ -182,15 +184,16 @@ jobs:
         go env GOROOT
         go env GOPRIVATE
 
-    - name: Initialize Go module
+    - name: Initialize Go workspace
       run: |
-        go mod download
-        go mod verify
+        go work init .
+        go work sync
 
-    - name: List packages
-      run: |
-        go list -m
-        go list ./...
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Verify dependencies
+      run: go mod verify
 
     - name: Build packages
       run: go build ./...
