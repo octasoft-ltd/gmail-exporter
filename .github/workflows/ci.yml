@@ -51,7 +51,7 @@ jobs:
         cache: true  # Enable built-in caching
 
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v4
+      uses: golangci/golangci-lint-action@v8
       with:
         version: v1.64.8
         args: --out-format=colored-line-number
