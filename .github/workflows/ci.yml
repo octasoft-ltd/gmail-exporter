@@ -10,7 +10,6 @@ env:
   GOPRIVATE: github.com/octasoft-ltd/*
   GONOPROXY: github.com/octasoft-ltd/*
   GONOSUMDB: github.com/octasoft-ltd/*
-  CACHE_VERSION: v2  # Increment to invalidate corrupted caches
 
 jobs:
   test:
@@ -23,16 +22,7 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.24.3'
-
-    - name: Cache Go modules
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/go/pkg/mod
-          ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
+        cache: true  # Enable built-in caching
 
     - name: Download dependencies
       run: go mod download
@@ -58,28 +48,14 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.24.3'
-
-    - name: Cache Go modules
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/go/pkg/mod
-          ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
-
-    - name: Download dependencies
-      run: go mod download
+        cache: true  # Enable built-in caching
 
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v4
       with:
         version: v1.64.8
         args: --out-format=colored-line-number
-        skip-cache: false
-        skip-pkg-cache: false
-        skip-build-cache: false
+        # Let the action handle its own caching - remove manual cache settings
 
   security:
     name: Security Scan
@@ -92,16 +68,7 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.24.3'
-
-    - name: Cache Go modules
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/go/pkg/mod
-          ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
+        cache: true  # Enable built-in caching
 
     - name: Download dependencies
       run: go mod download
@@ -123,16 +90,7 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.24.3'
-
-    - name: Cache Go modules
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/go/pkg/mod
-          ~/.cache/go-build
-        key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ env.CACHE_VERSION }}-${{ runner.os }}-go-
+        cache: true  # Enable built-in caching
 
     - name: Download dependencies
       run: go mod download
