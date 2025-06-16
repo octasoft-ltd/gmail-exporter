@@ -25,13 +25,13 @@ This document summarizes the improvements made to address authentication UX issu
 1. **Security Information Display:**
    ```
    🔐 Starting Gmail API authentication...
-   
+
    📋 IMPORTANT SECURITY INFORMATION:
       This application will request the following Gmail permissions:
       • Read your email messages and settings
       • Modify your email messages and settings (for import/cleanup)
       • Send email on your behalf (for import functionality)
-   
+
       🔍 You can review the source code at:
       • internal/auth/auth.go (this authentication code)
       • internal/exporter/ (export functionality)
@@ -179,4 +179,4 @@ Existing users can benefit immediately:
 
 ---
 
-**Result:** Gmail Exporter now provides a professional, secure, and user-friendly authentication experience that addresses all the original pain points while maintaining the highest security standards. 
+**Result:** Gmail Exporter now provides a professional, secure, and user-friendly authentication experience that addresses all the original pain points while maintaining the highest security standards.

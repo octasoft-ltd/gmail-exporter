@@ -1,0 +1,59 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+      - id: check-merge-conflict
+
+  # Go hooks using local commands (works better with Go modules)
+  - repo: local
+    hooks:
+      - id: go-fmt
+        name: Go fmt
+        entry: devbox
+        args: ["run", "--", "gofmt", "-w"]
+        language: system
+        files: \.go$
+        pass_filenames: true
+
+      - id: go-vet
+        name: Go vet
+        entry: devbox
+        args: ["run", "--", "go", "vet", "./..."]
+        language: system
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-mod-tidy
+        name: Go mod tidy
+        entry: devbox
+        args: ["run", "--", "go", "mod", "tidy"]
+        language: system
+        files: go\.(mod|sum)$
+        pass_filenames: false
+
+      # Optional: Comment out golangci-lint if it's too strict for commits
+      # - id: golangci-lint
+      #   name: golangci-lint (optional)
+      #   entry: devbox
+      #   args: ["run", "--", "golangci-lint", "run", "./..."]
+      #   language: system
+      #   files: \.go$
+      #   pass_filenames: false
+
+  # Security scanning for Go (exclude test files)
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        exclude: |
+          (?x)^(
+            go\.sum|
+            .*\.json$|
+            .*\.lock$|
+            .*_test\.go$
+          )$

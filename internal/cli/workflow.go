@@ -13,7 +13,7 @@ var workflowCmd = &cobra.Command{
 	Long: `Run a complete workflow that exports emails, forwards them to another account,
 and optionally archives or deletes the original emails.
 
-Use --limit to process only a specific number of messages in each step, which is useful 
+Use --limit to process only a specific number of messages in each step, which is useful
 for testing the complete workflow with a small number of messages before running a full workflow.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		limit, _ := cmd.Flags().GetInt("limit")

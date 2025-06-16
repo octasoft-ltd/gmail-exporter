@@ -311,4 +311,4 @@ MIT License - see LICENSE file for details.
 - **Issues**: Report bugs and feature requests on GitHub
 - **Documentation**: See USAGE.md for detailed examples
 - **Security**: Report security issues privately (see [SECURITY.md](SECURITY.md))
-- **Authentication**: See [AUTHENTICATION_SETUP.md](AUTHENTICATION_SETUP.md) for detailed setup instructions 
+- **Authentication**: See [AUTHENTICATION_SETUP.md](AUTHENTICATION_SETUP.md) for detailed setup instructions

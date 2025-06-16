@@ -27,7 +27,7 @@ linters:
 linters-settings:
   gocyclo:
     min-complexity: 25
-  
+
   gocritic:
     enabled-tags:
       - diagnostic
@@ -42,19 +42,19 @@ linters-settings:
       - whyNoLint
       - wrapperFunc
       - emptyStringTest
-  
+
   gosec:
     excludes:
       - G204 # Subprocess launched with variable
       - G304 # File path provided as taint input
-  
+
   goconst:
     min-len: 5
     min-occurrences: 5
-  
+
   unparam:
     check-exported: false
-  
+
   revive:
     rules:
       - name: exported
@@ -73,26 +73,26 @@ issues:
         - dupl
         - gosec
         - unparam
-    
+
     # Exclude known linters from partially hard-to-fix issues
     - linters:
         - gocritic
       text: "unnecessaryDefer:"
-    
+
     # Exclude shadow checking on err variables
     - linters:
         - govet
       text: 'shadow: declaration of "err"'
-    
+
     # Exclude specific unparam issues for methods that always return nil
     - linters:
         - unparam
       text: "result 1 \\(error\\) is always nil"
-    
+
     # Exclude goconst for file extensions
     - linters:
         - goconst
       text: "string `\\.eml` has .* occurrences"
 
   max-issues-per-linter: 0
-  max-same-issues: 0 
+  max-same-issues: 0

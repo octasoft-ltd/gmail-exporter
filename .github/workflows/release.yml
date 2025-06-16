@@ -37,18 +37,18 @@ jobs:
     - name: Build release binaries
       run: |
         mkdir -p dist
-        
+
         # Build for multiple platforms with version in filename
         VERSION="${{ steps.version.outputs.VERSION_NO_V }}"
-        
+
         # Linux
         GOOS=linux GOARCH=amd64 go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -o dist/gmail-exporter-${VERSION}-linux-amd64 ./cmd/gmail-exporter
         GOOS=linux GOARCH=arm64 go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -o dist/gmail-exporter-${VERSION}-linux-arm64 ./cmd/gmail-exporter
-        
+
         # macOS
         GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -o dist/gmail-exporter-${VERSION}-darwin-amd64 ./cmd/gmail-exporter
         GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -o dist/gmail-exporter-${VERSION}-darwin-arm64 ./cmd/gmail-exporter
-        
+
         # Windows
         GOOS=windows GOARCH=amd64 go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -o dist/gmail-exporter-${VERSION}-windows-amd64.exe ./cmd/gmail-exporter
         GOOS=windows GOARCH=arm64 go build -ldflags="-s -w -X main.version=${{ steps.version.outputs.VERSION }}" -o dist/gmail-exporter-${VERSION}-windows-arm64.exe ./cmd/gmail-exporter
@@ -97,4 +97,4 @@ jobs:
         prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}  # Mark as prerelease if version contains hyphen (e.g., v1.0.0-beta)
         generate_release_notes: true  # Auto-generate release notes from commits
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

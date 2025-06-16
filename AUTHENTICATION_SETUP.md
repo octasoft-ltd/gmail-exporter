@@ -116,7 +116,7 @@ This app hasn't been verified by Google yet. Only proceed if you know and trust 
 
 ### "Access blocked: This app's request is invalid"
 **Cause:** OAuth consent screen not properly configured
-**Solution:** 
+**Solution:**
 1. Ensure you completed Step 3 (OAuth consent screen)
 2. Add yourself as a test user
 3. Make sure Gmail API is enabled
@@ -163,7 +163,7 @@ For multiple Gmail accounts:
 
 ### Account 2 (Destination)
 ```bash
-./gmail-exporter auth setup --credentials dest-creds.json --token dest-token.json  
+./gmail-exporter auth setup --credentials dest-creds.json --token dest-token.json
 ./gmail-exporter auth login --token dest-token.json
 ```
 
@@ -228,4 +228,4 @@ If you're still having issues:
 
 ---
 
-**Remember:** The initial setup is the most complex part. Once authenticated, Gmail Exporter will automatically refresh tokens and handle authentication seamlessly. 
+**Remember:** The initial setup is the most complex part. Once authenticated, Gmail Exporter will automatically refresh tokens and handle authentication seamlessly.
