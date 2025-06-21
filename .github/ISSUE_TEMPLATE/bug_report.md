@@ -39,4 +39,4 @@ Add any other context about the problem here.
 
 **Security Note**
 ⚠️ **Do NOT include credentials, tokens, or actual email content in this issue.**
-Only include sanitized examples or error messages. 
+Only include sanitized examples or error messages.

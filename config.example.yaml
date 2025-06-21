@@ -26,7 +26,7 @@ log_level: "info"  # debug, info, warn, error
 log_file: ""  # empty for stderr, or specify a file path
 
 # Example filter configurations for common use cases:
-# 
+#
 # Export all emails to a specific recipient:
 # gmail-exporter export --to "user@example.com" --output-dir ./exports
 #
@@ -37,4 +37,4 @@ log_file: ""  # empty for stderr, or specify a file path
 # gmail-exporter export --to "user@example.com" --subject "Invoice" --date-within "30d"
 #
 # Export and organize by labels:
-# gmail-exporter export --to "user@example.com" --organize-by-labels --output-dir ./exports 
+# gmail-exporter export --to "user@example.com" --organize-by-labels --output-dir ./exports

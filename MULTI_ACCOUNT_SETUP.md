@@ -57,7 +57,7 @@ Always test with small numbers first:
 # Test export
 ./gmail-exporter export --output-dir test/ --limit 1
 
-# Test import  
+# Test import
 ./gmail-exporter import --input-dir test/ --import-credentials dest-creds.json --limit 1
 
 # Verify email appears correctly in destination account
@@ -79,4 +79,4 @@ Always test with small numbers first:
 - `USAGE.md` - Detailed examples and troubleshooting
 - `MULTI_ACCOUNT_SETUP.md` - This quick reference guide
 
-All tests passing ✅ 
+All tests passing ✅

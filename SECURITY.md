@@ -8,7 +8,7 @@ Gmail Exporter requests the following Gmail API scopes:
 
 ### 1. `https://www.googleapis.com/auth/gmail.readonly`
 **What it does:** Read-only access to Gmail messages and settings
-**Used for:** 
+**Used for:**
 - Exporting emails from your account
 - Reading email metadata (subject, sender, date, etc.)
 - Accessing email content and attachments
@@ -169,4 +169,4 @@ If you discover a security vulnerability:
 
 ---
 
-**Remember:** This application runs entirely on your local machine. Your emails never leave your computer except to communicate with Google's Gmail API for the operations you explicitly request. 
+**Remember:** This application runs entirely on your local machine. Your emails never leave your computer except to communicate with Google's Gmail API for the operations you explicitly request.

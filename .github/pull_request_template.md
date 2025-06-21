@@ -19,9 +19,9 @@ Brief description of the changes in this PR.
 
 ## Manual Testing Steps
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Checklist
 
@@ -46,4 +46,4 @@ If this is a breaking change, please describe the impact and migration path for 
 
 ## Additional Notes
 
-Any additional information that reviewers should know about this PR. 
+Any additional information that reviewers should know about this PR.

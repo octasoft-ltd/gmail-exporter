@@ -100,11 +100,11 @@ jobs:
         # Linux
         GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-linux-amd64 ./cmd/gmail-exporter
         GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-linux-arm64 ./cmd/gmail-exporter
-        
+
         # macOS
         GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-darwin-amd64 ./cmd/gmail-exporter
         GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-darwin-arm64 ./cmd/gmail-exporter
-        
+
         # Windows
         GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o gmail-exporter-windows-amd64.exe ./cmd/gmail-exporter
         GOOS=windows GOARCH=arm64 go build -ldflags="-s -w" -o gmail-exporter-windows-arm64.exe ./cmd/gmail-exporter
@@ -113,4 +113,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: binaries
-        path: gmail-exporter-* 
+        path: gmail-exporter-*

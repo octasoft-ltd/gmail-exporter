@@ -26,4 +26,4 @@ Describe the specific use case this feature would address:
 If you have ideas about how this could be implemented, please share them here.
 
 **Additional context**
-Add any other context or screenshots about the feature request here. 
+Add any other context or screenshots about the feature request here.

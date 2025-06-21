@@ -142,4 +142,4 @@ help:
 	@echo "  fmt          - Format code"
 	@echo "  vuln-check   - Check for vulnerabilities"
 	@echo "  pre-release  - Run all pre-release checks"
-	@echo "  help         - Show this help" 
+	@echo "  help         - Show this help"

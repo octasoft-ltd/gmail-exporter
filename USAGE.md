@@ -309,7 +309,7 @@ For each Gmail account, you need separate OAuth credentials:
 
 **Destination Account (Import):**
 ```bash
-# Set up credentials for destination account  
+# Set up credentials for destination account
 ./gmail-exporter auth setup \
   --credentials dest-gmail-credentials.json \
   --token dest-gmail-token.json
@@ -326,7 +326,7 @@ Check that both accounts are properly authenticated:
 # Check source account
 ./gmail-exporter auth status --token source-gmail-token.json
 
-# Check destination account  
+# Check destination account
 ./gmail-exporter auth status --token dest-gmail-token.json
 ```
 
@@ -384,7 +384,7 @@ parallel_workers: 5
 
 **dest-config.yaml:**
 ```yaml
-credentials_file: "dest-gmail-credentials.json"  
+credentials_file: "dest-gmail-credentials.json"
 token_file: "dest-gmail-token.json"
 parallel_workers: 3
 preserve_dates: true
@@ -395,7 +395,7 @@ Then use them with:
 # Export with source config
 ./gmail-exporter export --config source-config.yaml --from "sender@example.com"
 
-# Import with destination config  
+# Import with destination config
 ./gmail-exporter import --config dest-config.yaml --input-dir exports/
 ```
 
@@ -413,7 +413,7 @@ Migrate emails by year:
   --date-after "2023-01-01" \
   --date-before "2024-01-01"
 
-# Export 2024 emails  
+# Export 2024 emails
 ./gmail-exporter export \
   --credentials-file source-creds.json \
   --token-file source-token.json \
@@ -518,7 +518,7 @@ Before running large migrations:
 ./gmail-exporter auth status --token dest-token.json
 ```
 
-**Problem:** "Token expired" error  
+**Problem:** "Token expired" error
 ```bash
 # Solution: Refresh tokens for both accounts
 ./gmail-exporter auth refresh --token source-token.json
@@ -561,7 +561,7 @@ Before running large migrations:
 - Use specific scopes (readonly for export, full for import)
 - Regularly rotate OAuth tokens
 
-### Performance  
+### Performance
 - Start with small test batches
 - Use appropriate parallel worker counts
 - Monitor rate limits
@@ -589,7 +589,7 @@ set -e
 
 SOURCE_CREDS="source-gmail-credentials.json"
 SOURCE_TOKEN="source-gmail-token.json"
-DEST_CREDS="dest-gmail-credentials.json"  
+DEST_CREDS="dest-gmail-credentials.json"
 DEST_TOKEN="dest-gmail-token.json"
 MIGRATION_DIR="migration-$(date +%Y%m%d)"
 
@@ -621,7 +621,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     --input-dir "$MIGRATION_DIR" \
     --import-credentials "$DEST_CREDS" \
     --import-token "$DEST_TOKEN"
-  
+
   echo "Migration completed successfully!"
 else
   echo "Migration cancelled."
@@ -644,4 +644,4 @@ YESTERDAY=$(date -d "yesterday" +%Y-%m-%d)
   --include-attachments
 
 echo "Daily backup completed: $BACKUP_DIR"
-``` 
+```
