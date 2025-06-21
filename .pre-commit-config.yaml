@@ -9,6 +9,13 @@ repos:
       - id: check-added-large-files
       - id: check-merge-conflict
 
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.37.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+
   # Go hooks using local commands (works better with Go modules)
   - repo: local
     hooks:
