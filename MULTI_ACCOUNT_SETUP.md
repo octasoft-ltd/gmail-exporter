@@ -4,21 +4,25 @@ This document provides a quick reference for setting up Gmail Exporter with mult
 
 ## Bug Fix: Import Duplication Issue
 
-**Issue:** The import command was sending emails as new messages instead of importing them into the mailbox, causing recipients to receive duplicate emails.
+**Issue:** The import command was sending emails as new messages instead of importing them into the mailbox,
+causing recipients to receive duplicate emails.
 
-**Fix:** Updated the importer to use `Users.Messages.Import()` instead of `Users.Messages.Send()`, which properly imports emails without sending them.
+**Fix:** Updated the importer to use `Users.Messages.Import()` instead of `Users.Messages.Send()`,
+which properly imports emails without sending them.
 
 ## Multi-Account Authentication
 
 ### Quick Setup
 
 1. **Source Account (for export):**
+
    ```bash
    ./gmail-exporter auth setup --credentials source-creds.json --token source-token.json
    ./gmail-exporter auth login --token source-token.json
    ```
 
 2. **Destination Account (for import):**
+
    ```bash
    ./gmail-exporter auth setup --credentials dest-creds.json --token dest-token.json
    ./gmail-exporter auth login --token dest-token.json
@@ -27,6 +31,7 @@ This document provides a quick reference for setting up Gmail Exporter with mult
 ### Usage
 
 **Export from source:**
+
 ```bash
 ./gmail-exporter export \
   --credentials-file source-creds.json \
@@ -35,6 +40,7 @@ This document provides a quick reference for setting up Gmail Exporter with mult
 ```
 
 **Import to destination:**
+
 ```bash
 ./gmail-exporter import \
   --input-dir exports/ \

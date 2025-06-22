@@ -37,6 +37,7 @@ Thumbs.db
 
 # Credentials and authentication files
 *.json
+!devbox.json
 !config.example.yaml
 credentials*.json
 *credentials*.json

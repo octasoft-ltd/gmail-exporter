@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "packages": [
+    "go@latest",
+    "golangci-lint@latest",
+    "pre-commit@latest",
+    "markdownlint-cli@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Gmail Exporter Go Development Environment'",
+      "echo 'Available commands: go, golangci-lint, pre-commit'",
+      "echo 'Run: go mod tidy && go build'"
+    ]
+  }
+}
