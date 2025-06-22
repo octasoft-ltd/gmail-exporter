@@ -25,6 +25,7 @@ This guide provides step-by-step instructions for setting up and using the Gmail
 ## Step 2: Install Gmail Exporter
 
 ### Option A: Build from Source
+
 ```bash
 git clone https://github.com/your-username/gmail-exporter
 cd gmail-exporter
@@ -32,6 +33,7 @@ go build -o gmail-exporter ./cmd/gmail-exporter
 ```
 
 ### Option B: Using Go Install
+
 ```bash
 go install github.com/your-username/gmail-exporter/cmd/gmail-exporter@latest
 ```
@@ -39,16 +41,19 @@ go install github.com/your-username/gmail-exporter/cmd/gmail-exporter@latest
 ## Step 3: Initial Setup
 
 ### Set up OAuth credentials
+
 ```bash
 ./gmail-exporter auth setup --credentials-file path/to/your/credentials.json
 ```
 
 ### Authenticate with Gmail
+
 ```bash
 ./gmail-exporter auth login
 ```
 
 This will:
+
 1. Open a browser window for OAuth authentication
 2. Ask you to grant permissions to the application
 3. Save the authentication token for future use
@@ -56,11 +61,13 @@ This will:
 ## Step 4: Basic Usage Examples
 
 ### Export all emails to a specific recipient
+
 ```bash
 ./gmail-exporter export --to "user@example.com" --output-dir ./exports
 ```
 
 ### Export emails with multiple filters
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -71,6 +78,7 @@ This will:
 ```
 
 ### Export emails with size and date filters
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -80,6 +88,7 @@ This will:
 ```
 
 ### Export and organize by labels
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -90,6 +99,7 @@ This will:
 ## Step 5: Advanced Usage
 
 ### Parallel Processing
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -98,6 +108,7 @@ This will:
 ```
 
 ### Different Export Formats
+
 ```bash
 # Export as JSON
 ./gmail-exporter export --to "user@example.com" --format json --output-dir ./exports
@@ -107,6 +118,7 @@ This will:
 ```
 
 ### Resume Failed Exports
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -148,17 +160,21 @@ log_file: ""
 ## Step 7: Monitoring and Metrics
 
 ### View Operation Status
+
 ```bash
 ./gmail-exporter status --state-file ./exports/.state.json
 ```
 
 ### Check Authentication Status
+
 ```bash
 ./gmail-exporter auth status
 ```
 
 ### View Metrics
+
 After an export operation, check the metrics file:
+
 ```bash
 cat ./exports/metrics.json
 ```
@@ -166,6 +182,7 @@ cat ./exports/metrics.json
 ## Common Use Cases
 
 ### 1. Backup Emails to Specific Recipients
+
 ```bash
 ./gmail-exporter export \
   --to "important-client@example.com" \
@@ -175,6 +192,7 @@ cat ./exports/metrics.json
 ```
 
 ### 2. Export Large Attachments
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -184,6 +202,7 @@ cat ./exports/metrics.json
 ```
 
 ### 3. Export Recent Communications
+
 ```bash
 ./gmail-exporter export \
   --to "user@example.com" \
@@ -192,6 +211,7 @@ cat ./exports/metrics.json
 ```
 
 ### 4. Export by Label
+
 ```bash
 ./gmail-exporter export \
   --labels "important,work" \
@@ -200,6 +220,7 @@ cat ./exports/metrics.json
 ```
 
 ### 5. Complete Workflow (Export + Forward + Archive)
+
 ```bash
 ./gmail-exporter workflow \
   --to "user@example.com" \
@@ -211,6 +232,7 @@ cat ./exports/metrics.json
 ## Troubleshooting
 
 ### Authentication Issues
+
 ```bash
 # Refresh expired token
 ./gmail-exporter auth refresh
@@ -223,7 +245,9 @@ cat ./exports/metrics.json
 ```
 
 ### Rate Limiting
+
 If you encounter rate limiting:
+
 ```bash
 # Reduce parallel workers
 ./gmail-exporter export --to "user@example.com" --parallel-workers 1
@@ -233,7 +257,9 @@ If you encounter rate limiting:
 ```
 
 ### Large Exports
+
 For large exports:
+
 ```bash
 # Split by date ranges
 ./gmail-exporter export --to "user@example.com" --date-after "2024-01-01" --date-before "2024-06-30"
@@ -244,6 +270,7 @@ For large exports:
 ```
 
 ### Debug Mode
+
 ```bash
 ./gmail-exporter export --to "user@example.com" --log-level debug --verbose
 ```
@@ -285,6 +312,7 @@ For large exports:
 ## Multi-Account Authentication
 
 Gmail Exporter supports exporting from one Gmail account and importing into another. This is useful for:
+
 - Migrating between personal and work accounts
 - Consolidating multiple Gmail accounts
 - Backing up emails to a different account
@@ -297,6 +325,7 @@ Gmail Exporter supports exporting from one Gmail account and importing into anot
 For each Gmail account, you need separate OAuth credentials:
 
 **Source Account (Export):**
+
 ```bash
 # Set up credentials for source account
 ./gmail-exporter auth setup \
@@ -308,6 +337,7 @@ For each Gmail account, you need separate OAuth credentials:
 ```
 
 **Destination Account (Import):**
+
 ```bash
 # Set up credentials for destination account
 ./gmail-exporter auth setup \
@@ -375,6 +405,7 @@ Here's a complete example of migrating emails from one account to another:
 You can create separate config files for each account:
 
 **source-config.yaml:**
+
 ```yaml
 credentials_file: "source-gmail-credentials.json"
 token_file: "source-gmail-token.json"
@@ -383,6 +414,7 @@ parallel_workers: 5
 ```
 
 **dest-config.yaml:**
+
 ```yaml
 credentials_file: "dest-gmail-credentials.json"
 token_file: "dest-gmail-token.json"
@@ -391,6 +423,7 @@ preserve_dates: true
 ```
 
 Then use them with:
+
 ```bash
 # Export with source config
 ./gmail-exporter export --config source-config.yaml --from "sender@example.com"
@@ -404,6 +437,7 @@ Then use them with:
 ### Date-Based Migration
 
 Migrate emails by year:
+
 ```bash
 # Export 2023 emails
 ./gmail-exporter export \
@@ -424,6 +458,7 @@ Migrate emails by year:
 ### Label-Based Migration
 
 Migrate specific labels:
+
 ```bash
 # Export work emails
 ./gmail-exporter export \
@@ -444,6 +479,7 @@ Migrate specific labels:
 ### Size-Based Migration
 
 Handle large emails separately:
+
 ```bash
 # Export small emails first (faster)
 ./gmail-exporter export \
@@ -512,6 +548,7 @@ Before running large migrations:
 ### Authentication Problems
 
 **Problem:** "Invalid credentials" error
+
 ```bash
 # Solution: Verify credentials file is for correct account
 ./gmail-exporter auth status --token source-token.json
@@ -519,6 +556,7 @@ Before running large migrations:
 ```
 
 **Problem:** "Token expired" error
+
 ```bash
 # Solution: Refresh tokens for both accounts
 ./gmail-exporter auth refresh --token source-token.json
@@ -528,17 +566,20 @@ Before running large migrations:
 ### Import Issues
 
 **Problem:** Emails not appearing in destination account
+
 - Verify you're using correct destination credentials
 - Check that import completed without errors
 - Look in "All Mail" folder, not just Inbox
 
 **Problem:** Duplicate emails during import
+
 - This was a bug in earlier versions - ensure you're using latest version
 - The tool now uses Gmail API Import instead of Send
 
 ### Performance Issues
 
 **Problem:** Import/export too slow
+
 ```bash
 # Increase parallel workers
 --parallel-workers 5
@@ -548,6 +589,7 @@ Before running large migrations:
 ```
 
 **Problem:** Rate limiting errors
+
 ```bash
 # Reduce parallel workers and add delays
 --parallel-workers 1
@@ -556,24 +598,28 @@ Before running large migrations:
 ## Best Practices
 
 ### Security
+
 - Use separate credentials files for each account
 - Store credentials securely (not in version control)
 - Use specific scopes (readonly for export, full for import)
 - Regularly rotate OAuth tokens
 
 ### Performance
+
 - Start with small test batches
 - Use appropriate parallel worker counts
 - Monitor rate limits
 - Split large migrations by date/size
 
 ### Organization
+
 - Use descriptive output directory names
 - Include dates in directory names
 - Keep export and import logs
 - Document your migration process
 
 ### Backup
+
 - Always backup important data first
 - Test restore procedures
 - Keep multiple copies of exports

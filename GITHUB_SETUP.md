@@ -29,21 +29,21 @@ The Gmail Exporter project has been configured for GitHub at: `https://github.co
 
 ### GitHub Templates
 
-3. **`.github/ISSUE_TEMPLATE/bug_report.md`** - Bug report template
-4. **`.github/ISSUE_TEMPLATE/feature_request.md`** - Feature request template
-5. **`.github/pull_request_template.md`** - Pull request template
+1. **`.github/ISSUE_TEMPLATE/bug_report.md`** - Bug report template
+2. **`.github/ISSUE_TEMPLATE/feature_request.md`** - Feature request template
+3. **`.github/pull_request_template.md`** - Pull request template
 
 ### Build Configuration
 
-6. **`.gitignore`** - Comprehensive ignore file excluding:
+1. **`.gitignore`** - Comprehensive ignore file excluding:
    - Credentials and authentication files (*.json)
    - Export directories and files
    - Build artifacts and binaries
    - Temporary files and logs
    - IDE and OS files
 
-7. **`.golangci.yml`** - Linting configuration
-8. **`Makefile`** - Build automation with targets for:
+2. **`.golangci.yml`** - Linting configuration
+3. **`Makefile`** - Build automation with targets for:
    - Building (single and multi-platform)
    - Testing with coverage
    - Linting and security scanning
@@ -53,6 +53,7 @@ The Gmail Exporter project has been configured for GitHub at: `https://github.co
 ## CI/CD Features
 
 ### Continuous Integration
+
 - **Testing**: Runs all 67 test functions with race detection
 - **Linting**: golangci-lint with comprehensive rules
 - **Security**: gosec security scanner
@@ -60,6 +61,7 @@ The Gmail Exporter project has been configured for GitHub at: `https://github.co
 - **Multi-platform builds**: Linux, macOS, Windows (AMD64/ARM64)
 
 ### Automated Releases
+
 - **Version management**: Uses Git tags for versioning
 - **Binary distribution**: Automated builds for all platforms
 - **Documentation**: Auto-generated release notes
@@ -68,13 +70,16 @@ The Gmail Exporter project has been configured for GitHub at: `https://github.co
 ## Security Considerations
 
 ### File Exclusions
+
 The `.gitignore` file ensures no sensitive data is committed:
+
 - All JSON files (credentials, tokens, configs)
 - Export directories and email files
 - Metrics and log files
 - Build artifacts
 
 ### CI/CD Security
+
 - No secrets required for public builds
 - Security scanning in CI pipeline
 - Dependency verification
@@ -85,22 +90,26 @@ The `.gitignore` file ensures no sensitive data is committed:
 ### For Developers
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/octasoft-ltd/gmail-exporter.git
    cd gmail-exporter
    ```
 
 2. **Development setup:**
+
    ```bash
    make dev-setup
    ```
 
 3. **Build and test:**
+
    ```bash
    make all
    ```
 
 4. **Run security checks:**
+
    ```bash
    make security
    make vuln-check
@@ -109,6 +118,7 @@ The `.gitignore` file ensures no sensitive data is committed:
 ### For Releases
 
 1. **Create a release:**
+
    ```bash
    git tag v1.0.0
    git push origin v1.0.0
@@ -127,11 +137,13 @@ Users can download pre-built binaries from the GitHub releases page or build fro
 ## Next Steps
 
 1. **Push to GitHub:**
+
    ```bash
    git push -u origin main
    ```
 
 2. **Create first release:**
+
    ```bash
    git tag v1.0.0
    git push origin v1.0.0

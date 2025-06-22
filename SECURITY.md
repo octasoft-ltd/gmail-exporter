@@ -7,38 +7,47 @@ This document explains the security aspects of Gmail Exporter, what permissions 
 Gmail Exporter requests the following Gmail API scopes:
 
 ### 1. `https://www.googleapis.com/auth/gmail.readonly`
+
 **What it does:** Read-only access to Gmail messages and settings
 **Used for:**
+
 - Exporting emails from your account
 - Reading email metadata (subject, sender, date, etc.)
 - Accessing email content and attachments
 
 ### 2. `https://www.googleapis.com/auth/gmail.modify`
+
 **What it does:** Read, compose, send, and permanently delete Gmail messages
 **Used for:**
+
 - Importing emails into your account
 - Archiving emails during cleanup operations
 - Deleting emails during cleanup operations (if you choose delete action)
 
 ### 3. `https://www.googleapis.com/auth/gmail.send`
+
 **What it does:** Send email on your behalf
 **Used for:**
+
 - Importing emails (uses Gmail API Import, not Send - this scope is required by the API)
 
 ## 🛡️ Security Measures
 
 ### Local Processing Only
+
 - **No data transmission**: All email processing happens locally on your machine
 - **No external servers**: Your emails are never sent to external servers
 - **Local storage**: All exports are stored locally on your filesystem
 
 ### Secure Authentication
+
 - **OAuth 2.0**: Uses Google's secure OAuth 2.0 flow
 - **No password storage**: Never stores your Gmail password
 - **Token-based**: Uses refresh tokens that can be revoked
 - **Local token storage**: Tokens stored locally with restricted file permissions (0600)
 
 ### Minimal Network Access
+
 - **Gmail API only**: Only communicates with Google's Gmail API
 - **HTTPS only**: All API communications use HTTPS encryption
 - **No telemetry**: No usage data or analytics sent anywhere
@@ -72,6 +81,7 @@ You can verify the safety of this application by reviewing the source code:
 ### What to Look For
 
 ✅ **Safe patterns:**
+
 - `gmail.NewService()` - Creates Gmail API client
 - `service.Users.Messages.List()` - Lists messages (read-only)
 - `service.Users.Messages.Get()` - Gets message content (read-only)
@@ -81,6 +91,7 @@ You can verify the safety of this application by reviewing the source code:
 - `json.NewEncoder()` - Encodes data locally
 
 ❌ **Red flags to watch for (NOT present in this code):**
+
 - HTTP requests to non-Google domains
 - `service.Users.Messages.Send()` with new message content
 - Network transmission of email data
@@ -92,6 +103,7 @@ You can verify the safety of this application by reviewing the source code:
 When you first authenticate, Google will show a warning about an "unverified app":
 
 ### Why This Happens
+
 - This application is not published to Google's app store
 - Google requires a verification process for published apps
 - Since this is open-source software you run locally, it's not verified
@@ -107,7 +119,9 @@ When you first authenticate, Google will show a warning about an "unverified app
 3. **Proceed through the warning** by clicking "Advanced" then "Go to Gmail Exporter (unsafe)"
 
 ### Alternative: Verify the App (Advanced)
+
 If you want to remove the warning entirely, you can:
+
 1. Submit the app for Google's verification process
 2. This requires domain verification and security review
 3. Not necessary for personal use
@@ -115,6 +129,7 @@ If you want to remove the warning entirely, you can:
 ## 🔒 Best Practices
 
 ### For Users
+
 1. **Review the code** before running, especially if you're handling sensitive emails
 2. **Use test accounts** first to verify behavior
 3. **Start with small limits** (`--limit 5`) to test functionality
@@ -122,6 +137,7 @@ If you want to remove the warning entirely, you can:
 5. **Revoke access** when no longer needed via [Google Account settings](https://myaccount.google.com/permissions)
 
 ### For Developers
+
 1. **Never log credentials** or tokens
 2. **Use minimal scopes** required for functionality
 3. **Implement dry-run modes** for destructive operations
@@ -157,7 +173,7 @@ Before using Gmail Exporter:
 If you discover a security vulnerability:
 
 1. **Do NOT** create a public GitHub issue
-2. **Email privately** to: security@example.com
+2. **Email privately** to: <security@example.com>
 3. **Include details** about the vulnerability
 4. **Allow time** for investigation and fix before public disclosure
 
@@ -169,4 +185,5 @@ If you discover a security vulnerability:
 
 ---
 
-**Remember:** This application runs entirely on your local machine. Your emails never leave your computer except to communicate with Google's Gmail API for the operations you explicitly request.
+**Remember:** This application runs entirely on your local machine. Your emails never leave your computer
+except to communicate with Google's Gmail API for the operations you explicitly request.

@@ -1,6 +1,7 @@
 # Authentication Setup Guide
 
-This guide walks you through setting up Gmail API authentication for Gmail Exporter, including handling Google's "unverified app" warnings.
+This guide walks you through setting up Gmail API authentication for Gmail Exporter,
+including handling Google's "unverified app" warnings.
 
 ## 📋 Prerequisites
 
@@ -55,17 +56,20 @@ This step is **crucial** to avoid authentication issues:
 ### Step 5: Set Up Gmail Exporter
 
 1. **Place credentials file:**
+
    ```bash
    # Copy your downloaded credentials file
    cp ~/Downloads/client_secret_*.json ./gmail-credentials.json
    ```
 
 2. **Set up authentication:**
+
    ```bash
    ./gmail-exporter auth setup --credentials-file gmail-credentials.json
    ```
 
 3. **Authenticate:**
+
    ```bash
    ./gmail-exporter auth login
    ```
@@ -75,6 +79,7 @@ This step is **crucial** to avoid authentication issues:
 When you run `auth login`, here's what happens:
 
 ### Automatic Flow (Recommended)
+
 1. **Security information displayed** - Review what permissions are being requested
 2. **Browser opens automatically** - OAuth consent screen loads
 3. **Grant permissions** - Click through Google's OAuth flow
@@ -82,7 +87,9 @@ When you run `auth login`, here's what happens:
 5. **Ready to use** - Authentication token saved locally
 
 ### Manual Flow (Fallback)
+
 If automatic flow fails:
+
 1. **Copy URL** - Manually open the provided URL in your browser
 2. **Complete OAuth** - Grant permissions in browser
 3. **Copy auth code** - From the browser URL after redirect
@@ -93,7 +100,8 @@ If automatic flow fails:
 You'll see this warning because Gmail Exporter isn't published to Google's app store:
 
 ### What You'll See
-```
+
+```text
 Google hasn't verified this app
 This app hasn't been verified by Google yet. Only proceed if you know and trust the developer.
 ```
@@ -107,6 +115,7 @@ This app hasn't been verified by Google yet. Only proceed if you know and trust 
 5. **Grant the requested permissions**
 
 ### Why This is Safe
+
 - You're running the code locally on your machine
 - You can review all source code
 - No data is transmitted to external servers
@@ -115,36 +124,46 @@ This app hasn't been verified by Google yet. Only proceed if you know and trust 
 ## 🔧 Troubleshooting
 
 ### "Access blocked: This app's request is invalid"
+
 **Cause:** OAuth consent screen not properly configured
 **Solution:**
+
 1. Ensure you completed Step 3 (OAuth consent screen)
 2. Add yourself as a test user
 3. Make sure Gmail API is enabled
 
 ### "The redirect URI in the request does not match"
+
 **Cause:** OAuth client configuration issue
 **Solution:**
+
 1. Recreate OAuth credentials (Step 4)
 2. Choose "Desktop application" type
 3. Don't manually set redirect URIs
 
 ### "invalid_grant" error
+
 **Cause:** Clock skew or expired authorization code
 **Solution:**
+
 1. Check your system clock is correct
 2. Try authentication again quickly after getting the URL
 3. Use manual flow if automatic flow times out
 
 ### Browser doesn't open automatically
+
 **Cause:** No default browser or permission issues
 **Solution:**
+
 1. Copy the URL from terminal
 2. Manually open in your browser
 3. Continue with manual flow
 
 ### "Token expired" after some time
+
 **Cause:** Refresh token expired (normal after long periods)
 **Solution:**
+
 ```bash
 ./gmail-exporter auth refresh
 # If that fails:
@@ -156,12 +175,14 @@ This app hasn't been verified by Google yet. Only proceed if you know and trust 
 For multiple Gmail accounts:
 
 ### Account 1 (Source)
+
 ```bash
 ./gmail-exporter auth setup --credentials source-creds.json --token source-token.json
 ./gmail-exporter auth login --token source-token.json
 ```
 
 ### Account 2 (Destination)
+
 ```bash
 ./gmail-exporter auth setup --credentials dest-creds.json --token dest-token.json
 ./gmail-exporter auth login --token dest-token.json
@@ -182,12 +203,14 @@ If you're running Gmail Exporter on a remote server:
 ## 🔒 Security Best Practices
 
 1. **Keep credentials secure:**
+
    ```bash
    chmod 600 gmail-credentials.json
    chmod 600 ~/.gmail-exporter/token.json
    ```
 
 2. **Don't commit credentials to version control:**
+
    ```bash
    echo "*.json" >> .gitignore
    echo "gmail-credentials.json" >> .gitignore
@@ -228,4 +251,5 @@ If you're still having issues:
 
 ---
 
-**Remember:** The initial setup is the most complex part. Once authenticated, Gmail Exporter will automatically refresh tokens and handle authentication seamlessly.
+**Remember:** The initial setup is the most complex part. Once authenticated, Gmail Exporter will automatically
+refresh tokens and handle authentication seamlessly.

@@ -45,30 +45,35 @@ Gmail Exporter supports two authentication scenarios:
    - Download the credentials JSON file
 
 2. **Authenticate:**
+
    ```bash
    ./gmail-exporter auth setup --credentials gmail-credentials.json
    ./gmail-exporter auth login
    ```
 
-📚 **Detailed Setup Guide:** See [AUTHENTICATION_SETUP.md](AUTHENTICATION_SETUP.md) for step-by-step instructions including handling Google's "unverified app" warnings.
+📚 **Detailed Setup Guide:** See [AUTHENTICATION_SETUP.md](AUTHENTICATION_SETUP.md) for step-by-step
+instructions including handling Google's "unverified app" warnings.
 
 ### Multi-Account (Export from One Account, Import to Another)
 
 For migrating emails between different Gmail accounts:
 
 1. **Set up credentials for source account (export):**
+
    ```bash
    ./gmail-exporter auth setup --credentials source-credentials.json --token source-token.json
    ./gmail-exporter auth login --token source-token.json
    ```
 
 2. **Set up credentials for destination account (import):**
+
    ```bash
    ./gmail-exporter auth setup --credentials dest-credentials.json --token dest-token.json
    ./gmail-exporter auth login --token dest-token.json
    ```
 
 3. **Export from source account:**
+
    ```bash
    ./gmail-exporter export \
      --credentials-file source-credentials.json \
@@ -78,6 +83,7 @@ For migrating emails between different Gmail accounts:
    ```
 
 4. **Import to destination account:**
+
    ```bash
    ./gmail-exporter import \
      --input-dir exports/ \
@@ -169,6 +175,7 @@ If you have an existing exports directory but no filter file for cleanup:
 ### Command-line Flags
 
 #### Export Command
+
 - `--output-dir, -o`: Output directory for exported emails
 - `--format`: Export format (eml, json, mbox) [default: eml]
 - `--organize-by-labels`: Organize emails by labels in folder structure
@@ -177,6 +184,7 @@ If you have an existing exports directory but no filter file for cleanup:
 - `--limit, -l`: Limit number of messages to process (useful for testing)
 
 #### Import Command
+
 - `--input-dir, -i`: Input directory containing exported emails
 - `--import-credentials`: Gmail API credentials for destination account
 - `--import-token`: OAuth token file for destination account
@@ -185,12 +193,14 @@ If you have an existing exports directory but no filter file for cleanup:
 - `--limit, -l`: Limit number of messages to process (useful for testing)
 
 #### Cleanup Command
+
 - `--action`: Action to perform (archive, delete) [default: archive]
 - `--filter-file`: JSON file containing processed email IDs
 - `--dry-run`: Show what would be done without making changes
 - `--limit, -l`: Limit number of messages to process
 
 #### Generate Filter Command
+
 - `--input-dir, -i`: Input directory containing exported emails
 - `--output-file, -o`: Output filter file path (default: input-dir/processed_emails.json)
 
@@ -217,12 +227,15 @@ All Gmail search operators are supported:
 ## Output Formats
 
 ### EML Format (Default)
+
 Standard email format that preserves all email data including headers, body, and attachments.
 
 ### JSON Format
+
 Structured format containing the complete Gmail API message object.
 
 ### Mbox Format
+
 Unix mailbox format for compatibility with email clients.
 
 ## Security and Privacy
@@ -233,6 +246,7 @@ Unix mailbox format for compatibility with email clients.
 - **No data transmission**: All processing happens locally
 
 🔒 **Security Documentation:** See [SECURITY.md](SECURITY.md) for detailed information about:
+
 - What permissions are requested and why
 - How to verify the code is safe
 - Handling Google's "unverified app" warnings
